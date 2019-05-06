@@ -1,4 +1,90 @@
+" GENERAL TIPS AND TRICKS
+" c+w is changeword
+" w skips through the words
+" b and e to navigate through lines quickly to the beginning
+" and ending of words
+" ctrl+d/ctrl+u for easy scrolling
+" vspl on the same file allow changing in two places
+" =G does auto formatting
+" gq breaks lines at 80 characters, another q outside visual mode for this line
+
 syntax on
 
-" Wrap gitcommit file types at the appropriate length
-filetype indent plugin on
+let mapleader=","       " leader is comma
+set number				" show line numbers
+set tabstop=4 			" number of visual spaces per TAB
+set softtabstop=4 		" number of spaces in tab when editing
+set shiftwidth=4
+set expandtab
+set showcmd             " show command in bottom bar
+set cursorline          " highlight current line
+filetype indent on      " load filetype-specific indent files
+set wildmenu            " visual autocomplete for command menu
+set lazyredraw          " redraw only when we need to
+set showmatch           " highlight matching [{()}]
+
+" turn off search highlight, map to space
+set incsearch           " search as characters are entered
+set hlsearch            " highlight matches
+nnoremap <leader><space> :nohlsearch<CR>
+
+" space open/closes folds
+set foldenable          " enable folding
+set foldlevelstart=10   " open most folds by default
+set foldnestmax=10      " 10 nested fold max
+set foldmethod=indent   " fold based on indent level
+nnoremap <space> za
+
+" move vertically by visual line, pretty annoying otherwise
+nnoremap j gj
+nnoremap k gk
+" move to beginning/end of line
+nnoremap B ^
+nnoremap E $
+" $/^ doesn't do anything
+nnoremap $ <nop>
+nnoremap ^ <nop>
+
+" enforce the 80 character limit
+set textwidth=80
+set colorcolumn=+1
+
+" highlight last inserted text
+nnoremap gV `[v`]
+
+" jk is escape
+" inoremap jk <esc>
+" toggle gundo
+nnoremap <leader>u :GundoToggle<CR>
+
+" CtrlP settings
+let g:ctrlp_match_window = 'bottom,order:ttb'
+let g:ctrlp_switch_buffer = 0
+let g:ctrlp_working_path_mode = 0
+let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+
+" allows cursor change in tmux mode
+if exists('$TMUX')
+    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+else
+    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+endif
+
+set backup
+set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+set backupskip=/tmp/*,/private/tmp/*
+set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+set writebackup
+
+" toggle between number and relativenumber
+function! ToggleNumber()
+    if(&relativenumber == 1)
+        set norelativenumber
+        set number
+    else
+        set relativenumber
+    endif
+endfunc

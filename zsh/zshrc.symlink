@@ -1,50 +1,158 @@
-# shortcut to this dotfiles path is $ZSH
-export ZSH=$HOME/.dotfiles
+# SET UP OH MY ZSH.
 
-# your project folder that we can `c [tab]` to
-export PROJECTS=~/Code
+# Path to your oh-my-zsh installation.
+export ZSH="/Users/dylangoldsborough/.oh-my-zsh"
+# If you come from bash you might have to change your $PATH.
+export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-# Stash your environment variables in ~/.localrc. This means they'll stay out
-# of your main dotfiles repository (which may be public, like this one), but
-# you'll have access to them in your scripts.
-if [[ -a ~/.localrc ]]
-then
-  source ~/.localrc
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time oh-my-zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
+ZSH_THEME="robbyrussell"
+source $ZSH/oh-my-zsh.sh
+
+# ZSH SPECIFIC SETUP.
+
+# Allow corrections.
+ENABLE_CORRECTION="true"
+
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(git osx python bash zsh-syntax-highlighting)
+
+# DEFINE ALIASES.
+alias ..='cd ../'                           # Go back 1 directory level
+alias ...='cd ../../'                       # Go back 2 directory levels
+alias .3='cd ../../../'                     # Go back 3 directory levels
+alias .4='cd ../../../../'                  # Go back 4 directory levels
+alias .5='cd ../../../../../'               # Go back 5 directory levels
+alias .6='cd ../../../../../../'            # Go back 6 directory levels
+alias cd='cd -P'
+alias cd..='cd ..'
+alias cp='cp -iv'                           # Preferred 'cp' implementation
+alias dockerprune='docker system prune -a'
+alias dir='dir --color=auto'
+alias gitpersonal='cd ~/Repositories/personal/ && git add * && git commit -m "Routine." && git push'
+alias l='ls -CF -h'
+alias la='ls -h -A -G'
+alias less='less -FSRXc'                    # Preferred 'less' implementation
+alias ll='ls -lh -G'
+alias lla='ls -A -lh -G'
+alias mkdir='mkdir -pv'                     # Preferred 'mkdir' implementation
+alias mv='mv -iv'                           # Preferred 'mv' implementation
+alias numFiles='echo $(ls -1 | wc -l)'      # Count of non-hidden files in current dir
+alias path='echo -e ${PATH//:/\\n}'         # Echo all executable Paths
+alias pip='pip3'
+alias pybuild='python3 setup.py sdist bdist bdist_wheel'
+alias pymodtest='rm -r ./dist ./build & pybuild & pipenv install -e . & pipenv install ./dist/*.whl & pipenv run pytest test --log-level debug'
+alias python='python3'
+alias rasplocal='ssh pi@172.16.1.23'
+alias vim='vim -O'
+
+# SET ENVIRONMENT VARIABLES.
+export GITHUB_USER=dgoldsb
+export NEXUS_USERNAME=dgoldsborough
+export NEXUS_PASSWORD=3JGk0SaiNKQPJ8cR
+
+# CUSTOM FUNCTIONS.
+
+# Make an AAA ticket branch.
+branchaaa() {
+    eval "git pull && git checkout -b dgoldsborough/AAA-$1"
+}
+
+# Make a DATA ticket branch.
+branchdata() {
+    eval "git pull && git checkout -b dgoldsborough/DATA-$1"
+}
+
+# Check code complexity, based on https://realpython.com/python-refactoring/.
+checkfilecomplexity() {
+  eval "wc -l $1"
+  eval "radon cc $1 -s"
+  eval "radon hal $1"
+  eval "radon mi $1 -s"
+}
+
+checkprojectcomplexity() {
+  eval "wily build $1"
+  wily list-metrics
+  eval "find $1 -name \*.py | xargs wily report"
+}
+
+# Commit easily to an AAA ticket branch.
+function gitaaa() {
+    if [[ "$(git rev-parse --abbrev-ref HEAD)" =~ 'AAA-[0-9]*' ]]; then
+        ticket=$MATCH
+  	    echo "Writing a commit with ticket ${ticket}"
+  	    command="git commit -m \"$ticket $1\""
+  	    eval "${command}"
+    else
+        echo "Not an AAA ticket branch!"
+    fi
+}
+
+# Commit easily to a DATA ticket branch.
+function gitdata() {
+    if [[ "$(git rev-parse --abbrev-ref HEAD)" =~ "DATA-[0-9]*" ]]; then
+        ticket=$MATCH
+  	    echo "Writing a commit with ticket ${ticket}"
+  	    command="git commit -m \"$ticket $1\""
+  	    eval "${command}"
+    else
+        echo "Not a DATA ticket branch!"
+    fi
+}
+
+# Extract any file.
+function extract() {
+    if [ -f $1 ] ; then
+      case $1 in
+        *.tar.bz2)   tar xjf $1     ;;
+        *.tar.gz)    tar xzf $1     ;;
+        *.bz2)       bunzip2 $1     ;;
+        *.rar)       unrar e $1     ;;
+        *.gz)        gunzip $1      ;;
+        *.tar)       tar xf $1      ;;
+        *.tbz2)      tar xjf $1     ;;
+        *.tgz)       tar xzf $1     ;;
+        *.zip)       unzip $1       ;;
+        *.Z)         uncompress $1  ;;
+        *.7z)        7z x $1        ;;
+        *)     echo "'$1' cannot be extracted via extract()" ;;
+         esac
+     else
+         echo "'$1' is not a valid file"
+     fi
+}
+
+# USEFUL TOOLS
+
+# Autojump.
+[ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
+
+# Fuzzy file finder (fzf).
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+if [ -e ~/.fzf ]; then
+  PATH=$PATH:~/.fzf/bin
+  source ~/.fzf/shell/key-bindings.zsh
+  source ~/.fzf/shell/completion.zsh
 fi
 
-# all of our zsh files
-typeset -U config_files
-config_files=($ZSH/**/*.zsh)
+# fzf + ag configuration
+export FZF_DEFAULT_COMMAND='ag --nocolor -g ""'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_DEFAULT_OPTS='
+--color fg:242,bg:236,hl:65,fg+:15,bg+:239,hl+:108
+--color info:108,prompt:109,spinner:108,pointer:168,marker:168
+'
 
-# load the path files
-for file in ${(M)config_files:#*/path.zsh}
-do
-  source $file
-done
+# Too Long; Didn't Read (tldr).
 
-# load everything but the path and completion files
-for file in ${${config_files:#*/path.zsh}:#*/completion.zsh}
-do
-  source $file
-done
+# ZSH auto-suggestions.
+source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
-# initialize autocomplete here, otherwise functions won't be loaded
-autoload -U compinit
-compinit
-
-# load every completion after autocomplete loads
-for file in ${(M)config_files:#*/completion.zsh}
-do
-  source $file
-done
-
-unset config_files
-
-# Better history
-# Credits to https://coderwall.com/p/jpj_6q/zsh-better-history-searching-with-arrow-keys
-autoload -U up-line-or-beginning-search
-autoload -U down-line-or-beginning-search
-zle -N up-line-or-beginning-search
-zle -N down-line-or-beginning-search
-bindkey "^[[A" up-line-or-beginning-search # Up
-bindkey "^[[B" down-line-or-beginning-search # Down
+# TheFuck.
+eval $(thefuck --alias)
