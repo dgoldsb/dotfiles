@@ -32,7 +32,6 @@ alias cd..='cd ..'
 alias cp='cp -iv'                           # Preferred 'cp' implementation
 alias dockerprune='docker system prune -a'
 alias dir='dir --color=auto'
-alias gitpersonal='cd ~/Repositories/personal/ && git add * && git commit -m "Routine." && git push'
 alias l='ls -CF -h'
 alias la='ls -h -A -G'
 alias less='less -FSRXc'                    # Preferred 'less' implementation
