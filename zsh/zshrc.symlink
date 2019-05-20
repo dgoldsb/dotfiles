@@ -1,5 +1,8 @@
 # SET UP OH MY ZSH.
 
+# Show hidden files on mac.
+defaults write com.apple.Finder AppleShowAllFiles YES
+
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/dylangoldsborough/.oh-my-zsh"
 # If you come from bash you might have to change your $PATH.
@@ -46,6 +49,7 @@ alias pybuild='python3 setup.py sdist bdist bdist_wheel'
 alias pymodtest='rm -r ./dist ./build & pybuild & pipenv install -e . & pipenv install ./dist/*.whl & pipenv run pytest test --log-level debug'
 alias python='python3'
 alias rasplocal='ssh pi@172.16.1.23'
+alias subl='/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl'
 alias vim='vim -O'
 
 # SET ENVIRONMENT VARIABLES.
