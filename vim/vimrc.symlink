@@ -46,8 +46,9 @@ nnoremap $ <nop>
 nnoremap ^ <nop>
 
 " enforce the 80 character limit
-set textwidth=80
-set colorcolumn=+1
+" set textwidth=80
+" set colorcolumn=+1
+:set colorcolumn=101
 
 " highlight last inserted text
 nnoremap gV `[v`]
