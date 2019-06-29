@@ -48,13 +48,14 @@ alias pip='pip3'
 alias pybuild='python3 setup.py sdist bdist bdist_wheel'
 alias pymodtest='rm -r ./dist ./build & pybuild & pipenv install -e . & pipenv install ./dist/*.whl & pipenv run pytest test --log-level debug > test_result.log'
 alias python='python3'
-alias rasplocal='ssh pi@172.16.1.23'
+alias rasplocal='ssh pi@192.168.178.23'
 alias subl='/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl'
 alias vim='vim -O'
 
 # SET ENVIRONMENT VARIABLES.
 export GITHUB_USER=dgoldsb
 export NEXUS_USERNAME=dgoldsborough
+export NEXUS_PASSWORD=3JGk0SaiNKQPJ8cR
 
 # CUSTOM FUNCTIONS.
 
