@@ -13,6 +13,7 @@ export PATH=$HOME/bin:/usr/local/bin:$PATH
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 ZSH_THEME="robbyrussell"
+plugins=(you-should-use $plugins)
 source $ZSH/oh-my-zsh.sh
 
 # ZSH SPECIFIC SETUP.
@@ -57,17 +58,6 @@ export GITHUB_USER=dgoldsb
 export NEXUS_USERNAME=dgoldsborough
 
 # CUSTOM FUNCTIONS.
-
-# Make an AAA ticket branch.
-branchaaa() {
-    eval "git pull && git checkout -b dgoldsborough/AAA-$1"
-}
-
-# Make a DATA ticket branch.
-branchdata() {
-    eval "git pull && git checkout -b dgoldsborough/DATA-$1"
-}
-
 # Check code complexity, based on https://realpython.com/python-refactoring/.
 checkfilecomplexity() {
   eval "wc -l $1"
@@ -80,30 +70,6 @@ checkprojectcomplexity() {
   eval "wily build $1"
   wily list-metrics
   eval "find $1 -name \*.py | xargs wily report"
-}
-
-# Commit easily to an AAA ticket branch.
-function gitaaa() {
-    if [[ "$(git rev-parse --abbrev-ref HEAD)" =~ 'AAA-[0-9]*' ]]; then
-        ticket=$MATCH
-  	    echo "Writing a commit with ticket ${ticket}"
-  	    command="git commit -m \"$ticket $1\""
-  	    eval "${command}"
-    else
-        echo "Not an AAA ticket branch!"
-    fi
-}
-
-# Commit easily to a DATA ticket branch.
-function gitdata() {
-    if [[ "$(git rev-parse --abbrev-ref HEAD)" =~ "DATA-[0-9]*" ]]; then
-        ticket=$MATCH
-  	    echo "Writing a commit with ticket ${ticket}"
-  	    command="git commit -m \"$ticket $1\""
-  	    eval "${command}"
-    else
-        echo "Not a DATA ticket branch!"
-    fi
 }
 
 # Extract any file.
