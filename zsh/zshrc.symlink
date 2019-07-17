@@ -63,7 +63,6 @@ kubectl get services -n $2 --no-headers=true | awk '/$1/{print $1}' | xargs  kub
 # SET ENVIRONMENT VARIABLES.
 export GITHUB_USER=dgoldsb
 export NEXUS_USERNAME=dgoldsborough
-export NEXUS_PASSWORD=3JGk0SaiNKQPJ8cR
 
 # CUSTOM FUNCTIONS.
 # Make an AAA ticket branch.
