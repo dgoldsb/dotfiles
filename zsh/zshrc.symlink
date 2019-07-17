@@ -53,9 +53,17 @@ alias rasplocal='ssh pi@192.168.178.23'
 alias subl='/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl'
 alias vim='vim -O'
 
+# KUBERNETES
+kkpods() {
+  kubectl get pods -n $2 --no-headers=true | awk '/$1/{print $1}' | xargs  kubectl delete -n $2 pod
+}
+
+kubectl get services -n $2 --no-headers=true | awk '/$1/{print $1}' | xargs  kubectl delete -n $2 service
+
 # SET ENVIRONMENT VARIABLES.
 export GITHUB_USER=dgoldsb
 export NEXUS_USERNAME=dgoldsborough
+export NEXUS_PASSWORD=3JGk0SaiNKQPJ8cR
 
 # CUSTOM FUNCTIONS.
 # Make an AAA ticket branch.
