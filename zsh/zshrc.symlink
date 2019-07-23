@@ -44,6 +44,7 @@ alias lla='ls -A -lh -G'
 alias mkdir='mkdir -pv'                     # Preferred 'mkdir' implementation
 alias mv='mv -iv'                           # Preferred 'mv' implementation
 alias numFiles='echo $(ls -1 | wc -l)'      # Count of non-hidden files in current dir
+alias ticket='open -a Firefox https://picnic.atlassian.net/browse/$(git rev-parse --abbrev-ref HEAD | cut -d/ -f2)'
 alias path='echo -e ${PATH//:/\\n}'         # Echo all executable Paths
 alias pip='pip3'
 alias pybuild='python3 setup.py sdist bdist bdist_wheel'
@@ -58,7 +59,9 @@ kkpods() {
   kubectl get pods -n $2 --no-headers=true | awk '/$1/{print $1}' | xargs  kubectl delete -n $2 pod
 }
 
-kubectl get services -n $2 --no-headers=true | awk '/$1/{print $1}' | xargs  kubectl delete -n $2 service
+kkservices() {
+  kubectl get services -n $2 --no-headers=true | awk '/$1/{print $1}' | xargs  kubectl delete -n $2 service
+}
 
 # SET ENVIRONMENT VARIABLES.
 export GITHUB_USER=dgoldsb
