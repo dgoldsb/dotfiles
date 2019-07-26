@@ -36,6 +36,7 @@ alias cd..='cd ..'
 alias cp='cp -iv'                           # Preferred 'cp' implementation
 alias dockerprune='docker system prune -a'
 alias dir='dir --color=auto'
+alias isrt='isort -rc .'                    # pip install isort[pipfile]
 alias l='ls -CF -h'
 alias la='ls -h -A -G'
 alias less='less -FSRXc'                    # Preferred 'less' implementation
@@ -68,37 +69,24 @@ export GITHUB_USER=dgoldsb
 export NEXUS_USERNAME=dgoldsborough
 
 # CUSTOM FUNCTIONS.
-# Make an AAA ticket branch.
-branchaaa() {
-    eval "git pull && git checkout -b dgoldsborough/AAA-$1"
-}
-
-# Make a DATA ticket branch.
-branchdata() {
-    eval "git pull && git checkout -b dgoldsborough/DATA-$1"
-}
-
-# Commit easily to an AAA ticket branch.
-function gitaaa() {
-    if [[ "$(git rev-parse --abbrev-ref HEAD)" =~ 'AAA-[0-9]*' ]]; then
-        ticket=$MATCH
-  	    echo "Writing a commit with ticket ${ticket}"
-  	    command="git commit -m \"$ticket $1\""
-  	    eval "${command}"
+# Make a branch for a ticket
+function bt() {
+    if [[ "$1" =~ '[A-Z]+-[0-9]+' ]]; then
+        eval "git pull && git checkout -b dgoldsborough/$1"
     else
-        echo "Not an AAA ticket branch!"
+        echo "Not a valid Jira ticket!"
     fi
 }
 
-# Commit easily to a DATA ticket branch.
-function gitdata() {
-    if [[ "$(git rev-parse --abbrev-ref HEAD)" =~ "DATA-[0-9]*" ]]; then
+# Commit easily to a ticket branch.
+function bc() {
+    if [[ "$(git rev-parse --abbrev-ref HEAD)" =~ '[A-Z]+-[0-9]+' ]]; then
         ticket=$MATCH
   	    echo "Writing a commit with ticket ${ticket}"
   	    command="git commit -m \"$ticket $1\""
   	    eval "${command}"
     else
-        echo "Not a DATA ticket branch!"
+        echo "Not a Jira ticket branch!"
     fi
 }
 
