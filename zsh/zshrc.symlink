@@ -48,6 +48,7 @@ alias numFiles='echo $(ls -1 | wc -l)'      # Count of non-hidden files in curre
 alias ticket='open -a Firefox https://picnic.atlassian.net/browse/$(git rev-parse --abbrev-ref HEAD | cut -d/ -f2)'
 alias path='echo -e ${PATH//:/\\n}'         # Echo all executable Paths
 alias pip='pip3'
+alias please='sudo $(fc -ln -1)'
 alias pybuild='python3 setup.py sdist bdist bdist_wheel'
 alias pymodtest='rm -r ./dist ./build & pybuild & pipenv install -e . & pipenv install ./dist/*.whl & pipenv run pytest test --log-level debug > test_result.log'
 alias python='python3'
@@ -64,9 +65,14 @@ kkservices() {
   kubectl get services -n $2 --no-headers=true | awk '/$1/{print $1}' | xargs  kubectl delete -n $2 service
 }
 
+# TODO: kubectl get po -n data-workflows| grep 'Completed' | awk '{print $1}' | xargs -n 1 kubectl -n data-workflows delete po
+
 # SET ENVIRONMENT VARIABLES.
 export GITHUB_USER=dgoldsb
 export NEXUS_USERNAME=dgoldsborough
+export NEXUS_PASSWORD=
+export LC_ALL=en_US.UTF-8  # fixes Google docstring support in IntelliJ
+export LANG=en_US.UTF-8  # fixes Google docstring support in IntelliJ
 
 # CUSTOM FUNCTIONS.
 # Make a branch for a ticket
@@ -91,7 +97,7 @@ function bc() {
 }
 
 # Delete local branches
-alias gclean='git branch -D `git branch | grep "DATA\|AAA\|PDP" | xargs`'
+alias gclean='git remote prune origin'
 
 # Check code complexity, based on https://realpython.com/python-refactoring/.
 checkfilecomplexity() {
