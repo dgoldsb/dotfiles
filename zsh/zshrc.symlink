@@ -12,7 +12,8 @@ export PATH=$HOME/bin:/usr/local/bin:$PATH
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+# ZSH_THEME="robbyrussell"
+ZSH_THEME="spaceship"
 plugins=(you-should-use $plugins)
 source $ZSH/oh-my-zsh.sh
 
@@ -70,7 +71,6 @@ kkservices() {
 # SET ENVIRONMENT VARIABLES.
 export GITHUB_USER=dgoldsb
 export NEXUS_USERNAME=dgoldsborough
-export NEXUS_PASSWORD=
 export LC_ALL=en_US.UTF-8  # fixes Google docstring support in IntelliJ
 export LANG=en_US.UTF-8  # fixes Google docstring support in IntelliJ
 
