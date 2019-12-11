@@ -71,6 +71,7 @@ kkservices() {
 # SET ENVIRONMENT VARIABLES.
 export GITHUB_USER=dgoldsb
 export NEXUS_USERNAME=dgoldsborough
+export NEXUS_PASSWORD=
 export LC_ALL=en_US.UTF-8  # fixes Google docstring support in IntelliJ
 export LANG=en_US.UTF-8  # fixes Google docstring support in IntelliJ
 
@@ -94,6 +95,21 @@ function bc() {
     else
         echo "Not a Jira ticket branch!"
     fi
+}
+
+# Delete a kubernetes pod in data-workflows
+function kddw() {
+  command="kubectl delete pod $1 -n data-workflows"
+  eval "${command}"
+}
+
+# Get pods in data-workflows
+alias kpdw='kubectl get pods -n data-workflows'
+
+# Get logs of a pod in data-workflows
+function kldw() {
+  command="kubectl logs -f $1 -n data-workflows main"
+  eval "${command}"
 }
 
 # Delete local branches
