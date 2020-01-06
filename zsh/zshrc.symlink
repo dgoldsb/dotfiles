@@ -51,6 +51,7 @@ alias path='echo -e ${PATH//:/\\n}'         # Echo all executable Paths
 alias pip='pip3'
 alias please='sudo $(fc -ln -1)'
 alias pybuild='python3 setup.py sdist bdist bdist_wheel'
+alias pyfmt='docker run --rm -v "${pwd}:/src" python-tools format all'
 alias pymodtest='rm -r ./dist ./build & pybuild & pipenv install -e . & pipenv install ./dist/*.whl & pipenv run pytest test --log-level debug > test_result.log'
 alias python='python3'
 alias rasplocal='ssh pi@192.168.178.23'
