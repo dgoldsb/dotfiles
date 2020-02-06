@@ -13,9 +13,17 @@ export PATH=$HOME/bin:/usr/local/bin:$PATH
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 # ZSH_THEME="robbyrussell"
-ZSH_THEME="spaceship"
+# ZSH_THEME="spaceship"
 plugins=(you-should-use $plugins)
 source $ZSH/oh-my-zsh.sh
+
+source /usr/local/opt/powerlevel9k/powerlevel9k.zsh-theme
+POWERLEVEL9K_SHORTEN_DIR_LENGTH=1
+POWERLEVEL9K_SHORTEN_DELIMITER=””
+POWERLEVEL9K_SHORTEN_STRATEGY=”truncate_from_right”
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=()
+POWERLEVEL9K_PROMPT_ON_NEWLINE=true
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir vcs virtualenv kubecontext status)
 
 # ZSH SPECIFIC SETUP.
 
@@ -58,21 +66,39 @@ alias rasplocal='ssh pi@192.168.178.23'
 alias subl='/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl'
 alias vim='vim -O'
 
+# DOCKER
+
+# In case docker/docker-compose is not doing what you want and you forgot how to reset everything.
+alias fuckcompose='docker-compose kill -s SIGINT'
+alias fuckcontainers='docker stop $(docker ps -a -q) & docker rm $(docker ps -a -q)'
+
 # KUBERNETES
-kkpods() {
-  kubectl get pods -n $2 --no-headers=true | awk '/$1/{print $1}' | xargs  kubectl delete -n $2 pod
-}
 
-kkservices() {
-  kubectl get services -n $2 --no-headers=true | awk '/$1/{print $1}' | xargs  kubectl delete -n $2 service
-}
+# https://ahmet.im/blog/kubectl-aliases/
+alias k='kubectl'
+alias kg='kubectl get'
+alias kgpo='kubectl get pods'
+alias kgpoojson='kubectl get pods -o=json'
+alias kgpon='kubectl get pods --namespace'
 
-# TODO: kubectl get po -n data-workflows| grep 'Completed' | awk '{print $1}' | xargs -n 1 kubectl -n data-workflows delete po
+alias krm='kubectl delete'
+alias krmf='kubectl delete -f'
+alias krming='kubectl delete ingress'
+alias krmingl='kubectl delete ingress -l'
+alias krmingall='kubectl delete ingress --all-namespaces'
+
+alias ka='kubectl apply -f'
+alias klo='kubectl logs -f'
+alias kex='kubectl exec -i -t'
+
+alias kcc='kubectl config use-context'
+alias kcns='f(){ kubectl config set-context $(kubectl config current-context) --namespace="$@";  unset -f f; }; f'
 
 # SET ENVIRONMENT VARIABLES.
 export GITHUB_USER=dgoldsb
 export NEXUS_USERNAME=dgoldsborough
 export NEXUS_PASSWORD=
+export NEXUS_PASSWORD_PY=
 export LC_ALL=en_US.UTF-8  # fixes Google docstring support in IntelliJ
 export LANG=en_US.UTF-8  # fixes Google docstring support in IntelliJ
 
@@ -177,8 +203,22 @@ export FZF_DEFAULT_OPTS='
 
 # Too Long; Didn't Read (tldr).
 
+# Git filter branch
+# git filter-branch --index-filter 'git rm --cached -qr --ignore-unmatch -- . && git reset -q $GIT_COMMIT -- folder1/ folder2/' --prune-empty --tag-name-filter cat -- --all
+
+# Rebase with exec
+# http://kamalmarhubi.com/blog/2016/03/08/git-rebase-exec-make-sure-your-tests-pass-at-each-commit-and-other-rebase-goodies/
+# git rebase --interactive --exec "cmd" some-ref
+
 # ZSH auto-suggestions.
 source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # TheFuck.
 eval $(thefuck --alias)
+
+# zsh-syntax-highlighting
+source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# kube-ps1
+source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
+PS1='$(kube_ps1)'$PS1
