@@ -77,9 +77,14 @@ alias fuckcontainers='docker stop $(docker ps -a -q) & docker rm $(docker ps -a 
 # https://ahmet.im/blog/kubectl-aliases/
 alias k='kubectl'
 alias kg='kubectl get'
+alias kgjo='kubectl get jobs'
+alias kgjof="kubectl get job -o json | jq -r '.items[] | select(.status.conditions[0].type == \"Failed\") | .metadata.name'"
+alias kgjofd="kubectl get job -o json | jq -r '.items[] | select(.status.conditions[0].type == \"Failed\") | .metadata.name' | xargs kubectl delete job"
 alias kgpo='kubectl get pods'
 alias kgpoojson='kubectl get pods -o=json'
 alias kgpon='kubectl get pods --namespace'
+
+alias kdp='kubectl describe pod'
 
 alias krm='kubectl delete'
 alias krmf='kubectl delete -f'
