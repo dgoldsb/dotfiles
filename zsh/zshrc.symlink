@@ -43,8 +43,8 @@ alias .6='cd ../../../../../../'            # Go back 6 directory levels
 alias cd='cd -P'
 alias cd..='cd ..'
 alias cp='cp -iv'                           # Preferred 'cp' implementation
-alias dockerprune='docker system prune -a'
 alias dir='dir --color=auto'
+alias fileserver='python -m http.server 8000'
 alias isrt='isort -rc .'                    # pip install isort[pipfile]
 alias l='ls -CF -h'
 alias la='ls -h -A -G'
@@ -69,7 +69,8 @@ alias vim='vim -O'
 # DOCKER
 
 # In case docker/docker-compose is not doing what you want and you forgot how to reset everything.
-alias fuckcompose='docker-compose kill -s SIGINT'
+alias dockerprune='docker system prune -a --volumes'
+alias fuckcompose='docker-compose down && docker-compose rm && docker-compose kill -s SIGINT'
 alias fuckcontainers='docker stop $(docker ps -a -q) & docker rm $(docker ps -a -q)'
 
 # KUBERNETES
