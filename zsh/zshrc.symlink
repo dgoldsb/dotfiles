@@ -8,6 +8,8 @@ export ZSH="/Users/dylangoldsborough/.oh-my-zsh"
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 
+export PATH="$HOME/.cargo/bin:$PATH"
+
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
@@ -53,6 +55,7 @@ alias ll='ls -lh -G'
 alias lla='ls -A -lh -G'
 alias mkdir='mkdir -pv'                     # Preferred 'mkdir' implementation
 alias mv='mv -iv'                           # Preferred 'mv' implementation
+alias mvnc='mvn -T 1.0C clean install -DskipTests -Dverification.skip -Dfrontend.skip'
 alias numFiles='echo $(ls -1 | wc -l)'      # Count of non-hidden files in current dir
 alias ticket='open -a Firefox https://picnic.atlassian.net/browse/$(git rev-parse --abbrev-ref HEAD | cut -d/ -f2)'
 alias path='echo -e ${PATH//:/\\n}'         # Echo all executable Paths
