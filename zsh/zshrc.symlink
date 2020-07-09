@@ -72,9 +72,10 @@ alias vim='vim -O'
 # DOCKER
 
 # In case docker/docker-compose is not doing what you want and you forgot how to reset everything.
-alias dockerprune='docker system prune -a --volumes'
-alias fuckcompose='docker-compose down && docker-compose rm && docker-compose kill -s SIGINT'
-alias fuckcontainers='docker stop $(docker ps -a -q) & docker rm $(docker ps -a -q)'
+alias dkc='docker-compose'
+alias dkcd='docker-compose down && docker-compose rm && docker-compose kill -s SIGINT'
+alias dkp='docker system prune -a --volumes'
+alias dks='docker stop $(docker ps -a -q) & docker rm $(docker ps -a -q)'
 
 # KUBERNETES
 
