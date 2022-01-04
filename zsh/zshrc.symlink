@@ -3,6 +3,11 @@
 # Show hidden files on mac.
 defaults write com.apple.Finder AppleShowAllFiles YES
 
+export JAVA_11_HOME=$(/usr/libexec/java_home -v11)
+alias java11='export JAVA_HOME=$JAVA_11_HOME'
+# default to java 11
+java11
+
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/dylangoldsborough/.oh-my-zsh"
 # If you come from bash you might have to change your $PATH.
@@ -19,7 +24,7 @@ export PATH="$HOME/.cargo/bin:$PATH"
 plugins=(you-should-use $plugins)
 source $ZSH/oh-my-zsh.sh
 
-source /usr/local/opt/powerlevel9k/powerlevel9k.zsh-theme
+source /opt/homebrew/opt/powerlevel9k/powerlevel9k.zsh-theme
 POWERLEVEL9K_SHORTEN_DIR_LENGTH=1
 POWERLEVEL9K_SHORTEN_DELIMITER=””
 POWERLEVEL9K_SHORTEN_STRATEGY=”truncate_from_right”
@@ -33,7 +38,7 @@ POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir vcs virtualenv kubecontext status)
 ENABLE_CORRECTION="true"
 
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git osx python bash zsh-syntax-highlighting)
+plugins=(git macos python zsh-syntax-highlighting)
 
 # DEFINE ALIASES.
 alias ..='cd ../'                           # Go back 1 directory level
@@ -221,14 +226,12 @@ export FZF_DEFAULT_OPTS='
 # git rebase --interactive --exec "cmd" some-ref
 
 # ZSH auto-suggestions.
-source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # TheFuck.
 eval $(thefuck --alias)
 
-# zsh-syntax-highlighting
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
 # kube-ps1
-source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
+source "/opt/homebrew/opt/kube-ps1/share/kube-ps1.sh"
 PS1='$(kube_ps1)'$PS1
+export PATH="/opt/homebrew/opt/openjdk@11/bin:$PATH"
