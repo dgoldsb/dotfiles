@@ -128,9 +128,6 @@ alias h='helm --kube-context=$(k config view --minify -o jsonpath='{..contexts..
 
 # SET ENVIRONMENT VARIABLES.
 export GITHUB_USER=dgoldsb
-export NEXUS_USERNAME=dgoldsborough
-export NEXUS_PASSWORD=3JGk0SaiNKQPJ8cR
-export NEXUS_PASSWORD_PY=3JGk0SaiNKQPJ8cR
 export LC_ALL=en_US.UTF-8  # fixes Google docstring support in IntelliJ
 export LANG=en_US.UTF-8  # fixes Google docstring support in IntelliJ
 
@@ -142,21 +139,6 @@ function bt() {
     else
         echo "Not a valid Jira ticket!"
     fi
-}
-
-# Do a guide check from Docker container.
-function guide-docker() {
-  docker pull teampicnic/picnic-guide:latest
-  docker run -it --rm \
-    -v $(pwd):/app/$(pwd | md5) \
-    -v guide-data:/guide-data \
-    -v /var/run/docker.sock.raw:/var/run/docker.sock \
-    --user $(id -u):root \
-    -e GUIDE_HOST_CWD=$(pwd) \
-    -e NEXUS_USERNAME=$NEXUS_USERNAME \
-    -e NEXUS_PASSWORD=$NEXUS_PASSWORD \
-    teampicnic/picnic-guide:latest $@
-  return $?
 }
 
 # Commit easily to a ticket branch.
