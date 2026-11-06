@@ -278,3 +278,4 @@ alias memHogsPs='ps wwaxm -o pid,stat,vsize,rss,time,command | head -10'
 
 # CpuHogs:  Find CPU hogs
 alias cpu_hogs='ps wwaxr -o pid,stat,%cpu,time,command | head -10'
+. "$HOME/.cargo/env"

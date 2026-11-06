@@ -5,3 +5,5 @@
 .idea/
 *.tgz
 requirements.lock
+
+**/.claude/settings.local.json
